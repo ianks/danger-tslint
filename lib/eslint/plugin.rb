@@ -11,15 +11,23 @@ module Danger
   #          eslint.lint
   #
   # @see  leonhartX/danger-eslint
-  # @tags lint, javaxctipt
+  # @tags lint, javascript
   class DangerEslint < Plugin
-    # An path to eslint's config file
+    # A path to eslint's config file
     # @return [String]
     attr_accessor :config_file
 
-    # An path to eslint's ignore file
+    # A path to eslint's ignore file
     # @return [String]
     attr_accessor :ignore_file
+
+    # A path to eslint's executable
+    # @return [String]
+    attr_accessor :executable_path
+
+    # File matching regex
+    # @return [Regex]
+    attr_accessor :file_regex
 
     # Enable filtering
     # Only show messages within changed files.
@@ -45,8 +53,15 @@ module Danger
     #
     # return [String]
     def eslint_path
-      local = './node_modules/.bin/eslint'
+      local = executable_path ? executable_path : './node_modules/.bin/eslint'
       File.exist?(local) ? local : find_executable('eslint')
+    end
+
+    # Get eslint' file pattern regex
+    #
+    # return [String]
+    def matching_file_regex
+      file_regex ? file_regex : /.js$/
     end
 
     # Get lint result regards the filtering option
@@ -57,7 +72,7 @@ module Danger
       raise 'eslint is not installed' unless bin
       return run_lint(bin, '.') unless filtering
       ((git.modified_files - git.deleted_files) + git.added_files)
-        .select { |f| f.end_with? '.js' }
+        .select { |f| f[matching_file_regex] }
         .map { |f| f.gsub("#{Dir.pwd}/", '') }
         .map { |f| run_lint(bin, f).first }
     end
