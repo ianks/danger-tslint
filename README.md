@@ -37,3 +37,15 @@ If you want to lint only new/modified files. You can achieve that with setting t
 3. Run `bundle exec rake spec` to run the tests.
 4. Use `bundle exec guard` to automatically have tests run as you make changes.
 5. Make your changes.
+
+## Upload to Roverdotcom Gemfury account
+	
+In order to install a new version of danger-eslint, you need to update the version in the [gem_version.rb](lib/eslint/gem_version.rb)
+	
+1. Build a gem from the gemspec. This will output a gem file `danger-eslint-0.1.1.<rover_build_number>.gem`.
+
+`gem build danger-eslint.gemspec`
+
+2. Use curl to push the new package to our Gemfury account
+
+`curl -F package=@danger-eslint-0.1.1.<rover_build_number>.gem https://<token_from_repo_url>@push.fury.io/roverdotcom/`
