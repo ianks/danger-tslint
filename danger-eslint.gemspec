@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['leonhartx.k@gmail.com']
   spec.description   = %q{A Danger plugin for linting javascript with eslint.}
   spec.summary       = %q{A Danger plugin for linting javascript with eslint.}
-  spec.homepage      = 'https://github.com/leonhartX/danger-eslint'
+  spec.homepage      = 'https://github.com/roverdotcom/danger-eslint'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
