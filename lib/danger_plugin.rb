@@ -1,1 +1,1 @@
-require 'eslint/plugin'
+require 'tslint/plugin'

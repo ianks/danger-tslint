@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'eslint/gem_version.rb'
+require 'tslint/gem_version.rb'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'danger-eslint'
-  spec.version       = Eslint::VERSION
-  spec.authors       = ['leonhartX']
-  spec.email         = ['leonhartx.k@gmail.com']
-  spec.description   = %q{A Danger plugin for linting javascript with eslint.}
-  spec.summary       = %q{A Danger plugin for linting javascript with eslint.}
-  spec.homepage      = 'https://github.com/roverdotcom/danger-eslint'
+  spec.name          = 'danger-tslint'
+  spec.version       = Tslint::VERSION
+  spec.authors       = ['seriwb']
+  spec.email         = ['seri.wb@gmail.com']
+  spec.description   = %q{A Danger plugin for linting TypeScript with TSLint.}
+  spec.summary       = %q{A Danger plugin for linting TypeScript with TSLint.}
+  spec.homepage      = 'https://github.com/seriwb/danger-tslint'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
