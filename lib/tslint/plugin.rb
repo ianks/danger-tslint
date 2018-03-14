@@ -95,11 +95,11 @@ module Danger
     #
     # return [Hash]
     def run_lint(bin, file)
-      command = "#{bin}"
+      command = "#{bin} --format json"
       command << " -c #{config_file}" if config_file
       command << " -e #{ignore_file}" if ignore_file
       command << " -p #{project_directory}" if project_directory
-      result = `#{command} #{file}`
+      result = `#{command} '#{file}'`
       JSON.parse(result)
     end
 
