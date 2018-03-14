@@ -99,7 +99,7 @@ module Danger
       command << " -c #{config_file}" if config_file
       command << " -e #{ignore_file}" if ignore_file
       command << " -p #{project_directory}" if project_directory
-      result = `#{command} '#{file}'`
+      result = `#{command} #{file}`
       JSON.parse(result)
     end
 
