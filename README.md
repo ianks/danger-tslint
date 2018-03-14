@@ -32,6 +32,7 @@ And you can change TSLint execution path and target file format.
     tslint.executable_path = './node_modules/.bin/tslint'
     tslint.file_regex = /.tsx?$/
 
-It is also possible to specify the project directory.
+It is also possible to specify the project directory and the target files.
 
     tslint.project_directory = '.'
+    tslint.target_files = 'src/**/*.{ts,tsx}'

@@ -33,7 +33,11 @@ module Danger
     # @return [Boolean]
     attr_accessor :filtering
 
-    # A path to tslint target
+    # TSLint target files
+    # @return [String]
+    attr_accessor :target_files
+
+    # A path to tslint target project
     # @return [String]
     attr_accessor :project_directory
 
@@ -73,7 +77,8 @@ module Danger
     def lint_results
       bin = tslint_path
       raise 'tslint is not installed' unless bin
-      return run_lint(bin, '.') unless filtering
+      file = target_files ? target_files : '.'
+      return run_lint(bin, file) unless filtering
       ((git.modified_files - git.deleted_files) + git.added_files)
         .select { |f| f[matching_file_regex] }
         .map { |f| f.gsub("#{Dir.pwd}/", '') }
@@ -90,11 +95,11 @@ module Danger
     #
     # return [Hash]
     def run_lint(bin, file)
-      command = "#{bin} -f json"
+      command = "#{bin}"
       command << " -c #{config_file}" if config_file
       command << " -e #{ignore_file}" if ignore_file
       command << " -p #{project_directory}" if project_directory
-      result = `#{command} #{file}`
+      result = `#{command} '#{file}'`
       JSON.parse(result)
     end
 
