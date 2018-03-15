@@ -67,7 +67,14 @@ module Danger
     #
     # return [String]
     def matching_file_regex
-      file_regex ? file_regex : /.tsx?$/
+      file_regex ? file_regex : /.*\.tsx?$/
+    end
+
+    # Get TypeScript project path
+    #
+    # return [String]
+    def project_path
+      project_directory ? project_directory : '.'
     end
 
     # Get lint result regards the filtering option
@@ -76,8 +83,7 @@ module Danger
     def lint_results
       bin = tslint_path
       raise 'tslint is not installed' unless bin
-      file = target_files ? target_files : '.'
-      return run_lint(bin, file) unless filtering
+      return run_lint(bin, target_files) unless filtering
       ((git.modified_files - git.deleted_files) + git.added_files)
         .select { |f| f[matching_file_regex] }
         .map { |f| f.gsub("#{Dir.pwd}/", '') }
@@ -97,8 +103,10 @@ module Danger
       command = "#{bin} --format json"
       command << " -c #{config_file}" if config_file
       command << " -e #{ignore_file}" if ignore_file
-      command << " -p #{project_directory}" if project_directory
-      result = `#{command} '#{file}'`
+      command << " -p #{project_path}"
+      command << " '#{file}'" if file
+      result = `#{command}`
+      result = '[]' if result.include? 'is not included in project'
       JSON.parse(result)
     end
 
