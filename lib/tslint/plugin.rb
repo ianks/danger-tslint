@@ -49,7 +49,7 @@ module Danger
     #
     def lint
       lint_results
-        .reject { |r| r.length.zero? }
+        .reject { |r| r.nil? || r.length.zero? }
         .map { |r| send_comment r }
     end
 
