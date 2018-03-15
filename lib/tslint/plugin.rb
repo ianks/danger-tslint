@@ -49,8 +49,7 @@ module Danger
     #
     def lint
       lint_results
-        .reject { |r| r['messages'].length.zero? }
-        .reject { |r| r['messages'].first['message'].include? 'matching ignore pattern' }
+        .reject { |r| r.length.zero? }
         .map { |r| send_comment r }
     end
 
@@ -108,11 +107,9 @@ module Danger
     # @return [void]
     def send_comment(results)
       dir = "#{Dir.pwd}/"
-      results['messages'].each do |r|
-        filename = results['filePath'].gsub(dir, '')
-        method = r['severity'] > 1 ? 'fail' : 'warn'
-        send(method, r['message'], file: filename, line: r['line'])
-      end
+      filename = results['name'].gsub(dir, '')
+      method = results['ruleSeverity'] == 'ERROR' ? 'fail' : 'warn'
+      send(method, results['failure'], file: filename, line: results['endPosition']['line'])
     end
   end
 end
