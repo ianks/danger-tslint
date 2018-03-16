@@ -117,7 +117,8 @@ module Danger
       dir = "#{Dir.pwd}/"
       filename = results['name'].gsub(dir, '')
       method = results['ruleSeverity'] == 'ERROR' ? 'fail' : 'warn'
-      send(method, results['failure'], file: filename, line: results['endPosition']['line'])
+      line = results['endPosition']['line'] + 1
+      send(method, results['failure'], file: filename, line: line)
     end
   end
 end
