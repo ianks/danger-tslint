@@ -19,7 +19,7 @@ All lint result will send as individual comment. If your are using Github, the c
 Also, you can pass a config file or tslintignore file to danger-tslint with:
 
     tslint.config_file = '/path/yourconfig'
-    tsling.ignore_file = '/path/yourigonre'
+    tslint.ignore_file = '/path/yourigonre'
     tslint.lint
 
 And you can change TSLint execution path and target file format.
