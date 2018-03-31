@@ -1,4 +1,3 @@
-require 'mkmf'
 require 'json'
 
 module Danger
@@ -60,7 +59,7 @@ module Danger
     # return [String]
     def tslint_path
       local = executable_path ? executable_path : './node_modules/.bin/tslint'
-      File.exist?(local) ? local : find_executable('tslint')
+      File.exist?(local) ? local : 'tslint'
     end
 
     # Get tslint' file pattern regex
