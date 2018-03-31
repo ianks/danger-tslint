@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in danger-eslint.gemspec
+# Specify your gem's dependencies in danger-tslint.gemspec
 gemspec
