@@ -106,7 +106,7 @@ module Danger
       command << " -c #{config_file}" if config_file
       command << " -e #{ignore_file}" if ignore_file
       command << " -p #{project_path}"
-      command << " '#{files}'" if files
+      command << " #{files}" if files
       result = `#{command}`
       result = '[]' if result.include? 'is not included in project'
       JSON.parse(result)
