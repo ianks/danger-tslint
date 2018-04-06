@@ -1,4 +1,5 @@
 require 'json'
+require 'shellwords'
 
 module Danger
   # Lint TypeScript files using [tslint](https://palantir.github.io/tslint/).
@@ -83,10 +84,12 @@ module Danger
       bin = tslint_path
       raise 'tslint is not installed' unless bin
       return run_lint(bin, target_files) unless filtering
-      ((git.modified_files - git.deleted_files) + git.added_files)
-        .select { |f| f[matching_file_regex] }
-        .map { |f| f.gsub("#{Dir.pwd}/", '') }
-        .map { |f| run_lint(bin, f).first }
+
+      files = ((git.modified_files - git.deleted_files) + git.added_files)
+              .select { |f| f[matching_file_regex] }
+              .map { |f| f.gsub("#{Dir.pwd}/", '') }
+
+      run_lint(bin, Shellwords.join(files))
     end
 
     # Run tslint against a single file.
@@ -98,12 +101,12 @@ module Danger
     #          File to be linted
     #
     # return [Hash]
-    def run_lint(bin, file)
+    def run_lint(bin, files)
       command = "#{bin} --format json"
       command << " -c #{config_file}" if config_file
       command << " -e #{ignore_file}" if ignore_file
       command << " -p #{project_path}"
-      command << " '#{file}'" if file
+      command << " '#{files}'" if files
       result = `#{command}`
       result = '[]' if result.include? 'is not included in project'
       JSON.parse(result)
