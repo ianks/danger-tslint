@@ -83,9 +83,10 @@ module Danger
     def lint_results
       bin = tslint_path
       raise 'tslint is not installed' unless bin
-      return run_lint(bin, target_files) unless filtering
+      lintable_files = (git.modified_files - git.deleted_files) + git.added_files
+      return run_lint(bin, lintable_files) unless filtering
 
-      files = ((git.modified_files - git.deleted_files) + git.added_files)
+      files = lintable_files
               .select { |f| f[matching_file_regex] }
               .map { |f| f.gsub("#{Dir.pwd}/", '') }
 
